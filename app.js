@@ -4,6 +4,7 @@ const client = new Discord.Client();
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const getGifOrSticker = require('./giphy');
+const getLyrics = require('./lyrics');
 
 client.once('ready', () => {
   console.log('Taylor Bot Connected :)');
@@ -41,6 +42,16 @@ client.on('message', (message) => {
           message.channel.send(
             "Couldn't get sticker from Giphy :(\n" + errorImgLink
           )
+        );
+    } else if (args[0] === 'lyrics') {
+      const searchTerm = args.slice(1).join(' ');
+
+      if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
+
+      getLyrics(searchTerm)
+        .then((lyrics) => message.channel.send(lyrics))
+        .catch((_) =>
+          message.channel.send(`I failed to get lyrics for "${searchTerm}"`)
         );
     }
   }

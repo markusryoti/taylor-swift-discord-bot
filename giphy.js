@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const SAD_TAYLOR = 'https://i.imgur.com/1FjXfu3.jpg';
 
-if (process.env.NODE_ENV === 'development') require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 getGifOrSticker = (type) => {
   const uri = encodeURI(
