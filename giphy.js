@@ -3,9 +3,9 @@ const SAD_TAYLOR = 'https://i.imgur.com/1FjXfu3.jpg';
 
 if (process.env.NODE_ENV === 'development') require('dotenv').config();
 
-const getTaylorGif = () => {
+getGifOrSticker = (type) => {
   const uri = encodeURI(
-    `https://api.giphy.com/v1/gifs/search?q=taylor swift&api_key=${process.env.GIPHY_KEY}`
+    `https://api.giphy.com/v1/${type}/search?q=taylor swift&api_key=${process.env.GIPHY_KEY}`
   );
 
   return new Promise(async (resolve, reject) => {
@@ -16,8 +16,8 @@ const getTaylorGif = () => {
           console.log(err);
           reject(SAD_TAYLOR);
         });
-      const gifs = response.data;
-      const randomItem = gifs[Math.floor(Math.random() * gifs.length)];
+      const items = response.data;
+      const randomItem = items[Math.floor(Math.random() * items.length)];
       if (randomItem) {
         resolve(randomItem.embed_url);
       }
@@ -28,4 +28,4 @@ const getTaylorGif = () => {
   });
 };
 
-module.exports = getTaylorGif;
+module.exports = getGifOrSticker;

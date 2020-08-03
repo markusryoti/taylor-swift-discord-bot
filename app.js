@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-if (process.env.NODE_ENV === 'development') require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-const getTaylorGif = require('./gif');
+const getGifOrSticker = require('./giphy');
 
 client.once('ready', () => {
   console.log('Taylor Bot Connected :)');
@@ -27,11 +27,19 @@ client.on('message', (message) => {
     }
 
     if (args[0] === 'gif') {
-      getTaylorGif()
+      getGifOrSticker('gifs')
         .then((item) => message.channel.send(item))
         .catch((errorImgLink) =>
           message.channel.send(
             "Couldn't get gif from Giphy :(\n" + errorImgLink
+          )
+        );
+    } else if (args[0] === 'sticker') {
+      getGifOrSticker('stickers')
+        .then((item) => message.channel.send(item))
+        .catch((errorImgLink) =>
+          message.channel.send(
+            "Couldn't get sticker from Giphy :(\n" + errorImgLink
           )
         );
     }
