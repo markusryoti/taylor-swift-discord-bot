@@ -30,27 +30,23 @@ client.on('message', (message) => {
     if (args[0] === 'gif') {
       getGifOrSticker('gifs')
         .then((item) => message.channel.send(item))
-        .catch((errorImgLink) =>
-          message.channel.send(
-            "Couldn't get gif from Giphy :(\n" + errorImgLink
-          )
-        );
+        .catch((errorImgLink) => {
+          message.channel.send("Couldn't get gif from Giphy :(");
+          message.channel.send(errorImgLink);
+        });
     } else if (args[0] === 'sticker') {
       getGifOrSticker('stickers')
         .then((item) => message.channel.send(item))
-        .catch((errorImgLink) =>
-          message.channel.send(
-            "Couldn't get sticker from Giphy :(\n" + errorImgLink
-          )
-        );
+        .catch((errorImgLink) => {
+          message.channel.send("Couldn't get gif from Giphy :(");
+          message.channel.send(errorImgLink);
+        });
     } else if (args[0] === 'lyrics') {
       const searchTerm = args.slice(1).join(' ');
-
       if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
-
       getLyrics(searchTerm)
         .then((lyrics) => message.channel.send(lyrics))
-        .catch((_) =>
+        .catch(() =>
           message.channel.send(`I failed to get lyrics for "${searchTerm}"`)
         );
     }
