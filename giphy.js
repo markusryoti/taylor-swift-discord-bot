@@ -3,7 +3,7 @@ const SAD_TAYLOR = 'https://i.imgur.com/1FjXfu3.jpg';
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-const HISTORY_LENGTH = 10;
+const HISTORY_LENGTH = 20;
 const MAX_NUMBER_OF_GIF_RESULTS = 1000;
 
 const gifHistory = [];
