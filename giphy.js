@@ -15,32 +15,28 @@ getGifOrSticker = (type) => {
   );
 
   return new Promise((resolve, reject) => {
-    try {
-      fetch(uri)
-        .then((res) => {
-          if (res) {
-            return res.json();
+    fetch(uri)
+      .then((res) => {
+        if (res) {
+          return res.json();
+        }
+      })
+      .then((json) => {
+        const items = json.data;
+        while (true) {
+          const randomItem =
+            items[Math.floor(Math.random() * items.length)].embed_url;
+          if (checkIfInHistory(type, randomItem)) {
+            updateItemHistory(type, randomItem);
+            resolve(randomItem);
+            break;
           }
-        })
-        .then((json) => {
-          const items = json.data;
-          while (true) {
-            const randomItem =
-              items[Math.floor(Math.random() * items.length)].embed_url;
-            if (checkIfInHistory(type, randomItem)) {
-              updateItemHistory(type, randomItem);
-              resolve(randomItem);
-              break;
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(SAD_TAYLOR);
-        });
-    } catch (err) {
-      console.log(err);
-      reject(SAD_TAYLOR);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(SAD_TAYLOR);
+      });
     }
   });
 };
