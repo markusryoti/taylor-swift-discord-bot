@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'development') require('dotenv').config();
 
 const { LYRICS_BASE_API, LYRICS_API_KEY } = process.env;
 
-const getTrackId = async (songTitle) => {
+const getTrackId = async songTitle => {
   const encodedSong = encodeURI(songTitle);
   const response = await fetch(
     LYRICS_BASE_API +
@@ -16,7 +16,7 @@ const getTrackId = async (songTitle) => {
   return trackObj.track.track_id;
 };
 
-const getLyricsByTrackId = async (id) => {
+const getLyricsByTrackId = async id => {
   const response = await fetch(
     LYRICS_BASE_API + `track.lyrics.get?track_id=${id}&apikey=${LYRICS_API_KEY}`
   );
@@ -24,7 +24,7 @@ const getLyricsByTrackId = async (id) => {
   return data.message.body.lyrics.lyrics_body;
 };
 
-const getLyrics = async (searchedTitle) => {
+const getLyrics = async searchedTitle => {
   const id = await getTrackId(searchedTitle);
   const lyrics = await getLyricsByTrackId(id);
   return lyrics;

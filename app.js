@@ -5,12 +5,13 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const getGifOrSticker = require('./giphy');
 const getLyrics = require('./lyrics');
+const getQuote = require('./quote');
 
 client.once('ready', () => {
   console.log('Taylor Bot Connected :)');
 });
 
-client.on('message', (message) => {
+client.on('message', message => {
   if (!message.content.startsWith(process.env.PREFIX) || message.author.bot)
     return;
 
@@ -29,15 +30,15 @@ client.on('message', (message) => {
 
     if (args[0] === 'gif') {
       getGifOrSticker('gifs')
-        .then((item) => message.channel.send(item))
-        .catch((errorImgLink) => {
+        .then(item => message.channel.send(item))
+        .catch(errorImgLink => {
           message.channel.send("Couldn't get gif from Giphy :(");
           message.channel.send(errorImgLink);
         });
     } else if (args[0] === 'sticker') {
       getGifOrSticker('stickers')
-        .then((item) => message.channel.send(item))
-        .catch((errorImgLink) => {
+        .then(item => message.channel.send(item))
+        .catch(errorImgLink => {
           message.channel.send("Couldn't get gif from Giphy :(");
           message.channel.send(errorImgLink);
         });
@@ -45,10 +46,14 @@ client.on('message', (message) => {
       const searchTerm = args.slice(1).join(' ');
       if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
       getLyrics(searchTerm)
-        .then((lyrics) => message.channel.send(lyrics))
+        .then(lyrics => message.channel.send(lyrics))
         .catch(() =>
           message.channel.send(`I failed to get lyrics for "${searchTerm}"`)
         );
+    } else if (args[0] == 'quote') {
+      getQuote()
+        .then(quote => message.channel.send(quote))
+        .catch(() => message.channel.send('I failed to get quote for'));
     }
   }
 });
