@@ -28,34 +28,44 @@ client.on('message', message => {
       );
     }
 
-    if (args[0] === 'gif') {
-      getGifOrSticker('gifs')
-        .then(item => message.channel.send(item))
-        .catch(errorImgLink => {
-          message.channel.send("Couldn't get gif from Giphy :(");
-          message.channel.send(errorImgLink);
-        });
-    } else if (args[0] === 'sticker') {
-      getGifOrSticker('stickers')
-        .then(item => message.channel.send(item))
-        .catch(errorImgLink => {
-          message.channel.send("Couldn't get gif from Giphy :(");
-          message.channel.send(errorImgLink);
-        });
-    } else if (args[0] === 'lyrics') {
-      const searchTerm = args.slice(1).join(' ');
-      if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
-      getLyrics(searchTerm)
-        .then(lyrics => message.channel.send(lyrics))
-        .catch(() =>
-          message.channel.send(`I failed to get lyrics for "${searchTerm}"`)
-        );
-    } else if (args[0] == 'quote') {
-      getQuote()
-        .then(quote => message.channel.send(quote))
-        .catch(() => message.channel.send('I failed to get quote for'));
+    const commandType = args[0];
+
+    switch(commandType) {
+      case 'gif':
+        getGifOrSticker('gifs')
+          .then(item => message.channel.send(item))
+          .catch(errorImgLink => {
+            message.channel.send("Couldn't get gif from Giphy :(");
+            message.channel.send(errorImgLink);
+          });
+          break;
+      case 'sticker':
+        getGifOrSticker('stickers')
+          .then(item => message.channel.send(item))
+          .catch(errorImgLink => {
+            message.channel.send("Couldn't get gif from Giphy :(");
+            message.channel.send(errorImgLink);
+          });
+          break;
+      case 'lyrics':
+        const searchTerm = args.slice(1).join(' ');
+        if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
+        getLyrics(searchTerm)
+          .then(lyrics => message.channel.send(lyrics))
+          .catch(() =>
+            message.channel.send(`I failed to get lyrics for "${searchTerm}"`)
+          );
+        break;
+      case 'quote':
+        getQuote()
+          .then(quote => message.channel.send(quote))
+          .catch(() => message.channel.send('I failed to get quote for'));
+        break;
+      
+      default:
+        break;
     }
-  }
+    }
 });
 
 client.login(process.env.DISCORD_TOKEN);
