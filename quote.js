@@ -10,4 +10,4 @@ const getQuote = () => {
   });
 };
 
-export default getQuote;
+module.exports = getQuote;
