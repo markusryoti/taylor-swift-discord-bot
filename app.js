@@ -30,7 +30,7 @@ client.on('message', message => {
 
     const commandType = args[0];
 
-    switch(commandType) {
+    switch (commandType) {
       case 'gif':
         getGifOrSticker('gifs')
           .then(item => message.channel.send(item))
@@ -38,7 +38,7 @@ client.on('message', message => {
             message.channel.send("Couldn't get gif from Giphy :(");
             message.channel.send(errorImgLink);
           });
-          break;
+        break;
       case 'sticker':
         getGifOrSticker('stickers')
           .then(item => message.channel.send(item))
@@ -46,7 +46,7 @@ client.on('message', message => {
             message.channel.send("Couldn't get gif from Giphy :(");
             message.channel.send(errorImgLink);
           });
-          break;
+        break;
       case 'lyrics':
         const searchTerm = args.slice(1).join(' ');
         if (!searchTerm) message.channel.send('Oopsie, you forgot the song name');
@@ -61,11 +61,18 @@ client.on('message', message => {
           .then(quote => message.channel.send(quote))
           .catch(() => message.channel.send('I failed to get quote for'));
         break;
-      
+      case 'fastgif':
+        getGifOrSticker('gifs', 'the fast and the furious')
+          .then(item => message.channel.send(item))
+          .catch(errorImgLink => {
+            message.channel.send("Couldn't get gif from Giphy :(");
+            message.channel.send(errorImgLink);
+          });
+        break;
       default:
         break;
     }
-    }
+  }
 });
 
 client.login(process.env.DISCORD_TOKEN);
