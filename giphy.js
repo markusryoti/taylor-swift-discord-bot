@@ -9,7 +9,7 @@ const MAX_NUMBER_OF_GIF_RESULTS = 1000;
 const gifHistory = [];
 const stickerHistory = [];
 
-getGifOrSticker = (type, searchTerm = 'taylor swift') => {
+function getGifOrSticker(type, searchTerm = 'taylor swift') {
   const uri = encodeURI(
     `https://api.giphy.com/v1/${type}/search?q=${searchTerm}&limit=${MAX_NUMBER_OF_GIF_RESULTS}&api_key=${process.env.GIPHY_KEY}`
   );

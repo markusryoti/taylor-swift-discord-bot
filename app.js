@@ -1,11 +1,13 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+// import { Client } from 'discord.js';
+const Client = require('discord.js')
+const client = new Client();
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const getGifOrSticker = require('./giphy');
-const getLyrics = require('./lyrics');
-const getQuote = require('./quote');
+const getLyrics = require('./lyrics')
+const getQuote = require('./quote')
+
 
 client.once('ready', () => {
   console.log('Taylor Bot Connected :)');
@@ -32,12 +34,21 @@ client.on('message', message => {
 
     switch (commandType) {
       case 'gif':
-        getGifOrSticker('gifs')
-          .then(item => message.channel.send(item))
-          .catch(errorImgLink => {
-            message.channel.send("Couldn't get gif from Giphy :(");
-            message.channel.send(errorImgLink);
-          });
+        if (args.length === 1) {
+          getGifOrSticker('gifs')
+            .then(item => message.channel.send(item))
+            .catch(errorImgLink => {
+              message.channel.send("Couldn't get gif from Giphy :(");
+              message.channel.send(errorImgLink);
+            });
+        } else {
+          getGifOrSticker('gifs', args.join(' '))
+            .then(item => message.channel.send(item))
+            .catch(errorImgLink => {
+              message.channel.send("Couldn't get gif from Giphy :(");
+              message.channel.send(errorImgLink);
+            });
+        }
         break;
       case 'sticker':
         getGifOrSticker('stickers')
