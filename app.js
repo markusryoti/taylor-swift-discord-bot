@@ -1,6 +1,5 @@
-// import { Client } from 'discord.js';
-const Client = require('discord.js')
-const client = new Client();
+const Discord = require('discord.js');
+const client = new Discord.Client();
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
