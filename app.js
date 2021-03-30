@@ -41,7 +41,7 @@ client.on('message', message => {
               message.channel.send(errorImgLink);
             });
         } else {
-          getGifOrSticker('gifs', args.join(' '))
+          getGifOrSticker('gifs', args.slice(1).join(' '))
             .then(item => message.channel.send(item))
             .catch(errorImgLink => {
               message.channel.send("Couldn't get gif from Giphy :(");
